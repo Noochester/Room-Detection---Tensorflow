@@ -6,12 +6,12 @@ import tensorflow as tf
 import sys
 
 colors_main = [
-    [0, 200, 0],    # green
-    [0, 0, 0],      # black
-    [255, 129, 0],  # orange
-    [98, 31, 220],  # pink
-    [0, 0, 255],    # blue
-    [42, 229, 240]  # yellow
+    [0, 200, 0],    # green -->     chair
+    [0, 0, 0],      # black -->     table
+    [255, 129, 0],  # orange -->    bed
+    [98, 31, 220],  # pink -->      door
+    [0, 0, 255],    # blue -->      Wheelchair/rollator
+    [42, 229, 240]  # yellow -->    pictureOrTV
 ]
 
 
@@ -62,8 +62,8 @@ def plot_boxes(img, boxes_to_draw, boxes, scores, classes, class_names):
 
 
 def main(args):
-    counter = 0  # for image naming
-    boxes_to_detect = 5  # how much boxes to draw
+    counter = 0             # for image naming
+    boxes_to_draw = 5     # how much boxes to draw
     # load model
     model = tf.saved_model.load(args.model_dir)
     # read class labels
@@ -83,7 +83,7 @@ def main(args):
 
         # Visualize results
 
-        plot_boxes(img_copy, boxes_to_detect, boxes[0], scores[0], classes[0], class_names)
+        plot_boxes(img_copy, boxes_to_draw, boxes[0], scores[0], classes[0], class_names)
         cv2.imwrite("images/evald/" + str(counter) + ".jpg", img_copy)
         counter = counter + 1
         # cv2.waitKey(0)
