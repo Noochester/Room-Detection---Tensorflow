@@ -4,6 +4,7 @@ Utilizing EfficientDet D2 768x768 and TensorFlow
 
 **Collect dataset and pre-trained model files from here:** 
 -https://drive.google.com/drive/folders/1EYnM3vn9E0Dr5KBjAe1PKo0CVZ65At8R?usp=sharing
+
 -https://drive.google.com/drive/folders/18FYiqiDYktOS8FVQ6hW4lqKMM8nlYJAx?usp=sharing
 
 # Description
@@ -17,5 +18,8 @@ can be very inaccurate at times. For the same reason it is using the very low tr
 The script can be adjusted to detect different amount of boxes, with different colours, fonts and thickness. It collects data from
 the **/images/eval** folder and the results are saved in the **images/evald** 
 An example command to run the script:
-  python detect.py --model-dir export/best_model_d2_112_0.655/2 --pic-dir images/eval --class-names dataset/proj.names --score-threshold 0.1
-![Example](Example1.png?raw=true "Optional Title")
+    ```
+    python detect.py --model-dir export/best_model_d2_112_0.655/2 --pic-dir images/eval --class-names dataset/proj.names --score-threshold 0.1
+    ```
+
+![Example](example1.png?raw=true "Optional Title")
