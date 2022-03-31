@@ -6,11 +6,11 @@ import tensorflow as tf
 import sys
 
 colors_main = [
-    [0, 200, 0],  # green
-    [0, 0, 0],  # black
+    [0, 200, 0],    # green
+    [0, 0, 0],      # black
     [255, 129, 0],  # orange
     [98, 31, 220],  # pink
-    [0, 0, 255],  # blue
+    [0, 0, 255],    # blue
     [42, 229, 240]  # yellow
 ]
 
@@ -78,7 +78,6 @@ def main(args):
         # predict model
         boxes, scores, classes, null = detect_batch_img(expanded, model)
         boxes = boxes.numpy()
-        np.concatenate(boxes)
         scores = scores.numpy()
         classes = classes.numpy()
 
