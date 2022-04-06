@@ -55,15 +55,15 @@ python setup.py install
 pip install -e .
 ```
 
-**What you will see next is dependencies shown in red, install all required packages with pip.**
-```pip install pycocotools``` will require MSVC 14.0+ installed
-```pip install tensorflow-cpu``` Install this as well, it utilizes the CPU, which is enough for detections and doesn't require installation of additional libraries (CUDA and cuDNN)
+**What you will see next is dependencies shown in red, install all required packages with pip.**\
+```pip install pycocotools``` will require MSVC 14.0+ installed\
+```pip install tensorflow-cpu``` Install this as well, it utilizes the CPU, which is enough for detections and doesn't require installation of additional libraries (CUDA and cuDNN)\
 
 **Verify installation with:**
 ```python``` *your path*``` \Tensorflow\models\research\object_detection\builders\model_builder_tf2_test.py```
 
 If you get **OK (skipped=1)** the installation is finished.
-![Example1](example2.png?raw=true "Verification")
+![Example1](Example2.png?raw=true "Verification")
 
 **Run the detection:**
 ```
@@ -80,5 +80,5 @@ python detect.py --model-dir export/best_model_d2_112_0.655/2 --pic-dir images/e
 ```
 ```deactivate``` Disables the virtual enviroment, use the activate command to use it again.
 
-The output should be the x1y1 and x2y2 coordinates, the score and the object name. Example below
+The output should be the x1y1 and x2y2 coordinates, the score and the object name. Example below:
 ![Example2](example1.png?raw=true "Outputs")
