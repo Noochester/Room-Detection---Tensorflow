@@ -21,6 +21,7 @@ def parse_args(args):
     parser.add_argument('--class-names')
     parser.add_argument('--score-threshold', default=0.2, type=float)
     parser.add_argument('--pic-dir')
+    parser.add_argument('--boxes-amount', default=5, type=int)
     return parser.parse_args(args)
 
 
@@ -40,7 +41,7 @@ def plot_one_box(img, c1, c2, color=None, obj_type=None, label=None):
                 thickness=tl - 1, lineType=cv2.LINE_AA)
 
 
-def plot_boxes(img, boxes_to_draw, boxes, scores, classes, class_names):
+def plot_boxes(img, boxes_to_draw, boxes, scores, classes, class_names, thresh):
     """plot all boxes on image."""
 
     boxesList = boxes.tolist()
@@ -53,17 +54,19 @@ def plot_boxes(img, boxes_to_draw, boxes, scores, classes, class_names):
 
         obj_type = class_names[int(classes[i])]
         # Gives coordinates, scores and class name
-        print("Box dimensions are", x1y1, "and", x2y2, "Score is", int(scores[i]*100),"%,", obj_type)
+        if scores[i] < thresh:
+            print("Below threshold,", "the score is", int(scores[i]*100), "%,", obj_type)
+        else:
+            print("Box dimensions are", x1y1, "and", x2y2, "Score is", int(scores[i]*100), "%,", obj_type)
 
-        plot_one_box(img, x1y1, x2y2, colors_main[int(classes[i])], obj_type=obj_type,
-                     label=str("%s:%0.2f" % (obj_type, scores[i])))
+            plot_one_box(img, x1y1, x2y2, colors_main[int(classes[i])], obj_type=obj_type,
+                         label=str("%s:%0.2f" % (obj_type, scores[i])))
 
     return img
 
 
 def main(args):
-    counter = 0             # for image naming
-    boxes_to_draw = 5     # how much boxes to draw
+    counter = 0  # for image naming
     # load model
     model = tf.saved_model.load(args.model_dir)
     # read class labels
@@ -83,10 +86,9 @@ def main(args):
 
         # Visualize results
 
-        plot_boxes(img_copy, boxes_to_draw, boxes[0], scores[0], classes[0], class_names)
+        plot_boxes(img_copy, args.boxes_amount, boxes[0], scores[0], classes[0], class_names, args.score_threshold)
         cv2.imwrite("images/evald/" + str(counter) + ".jpg", img_copy)
-        counter = counter + 1
-        # cv2.waitKey(0)
+        counter += 1
 
 
 if __name__ == '__main__':
