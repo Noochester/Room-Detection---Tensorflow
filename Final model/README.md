@@ -1,7 +1,10 @@
 
 # Final model for the Room Object Detection project
 
-Utilizing EfficientDet D2 768x768 and TensorFlow
+Utilizing EfficientDet D2 768x768 and TensorFlow\
+Trained with NVIDIA 2080TI 11GB GPU\
+Training was done thanks to:\
+https://github.com/wangermeng2021/EfficientDet-tensorflow2
 
 **Collect dataset and pre-trained model files from here:** \
 -The images the model was trained on\
