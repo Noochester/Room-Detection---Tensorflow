@@ -22,6 +22,12 @@ def parse_args(args):
     parser.add_argument('--score-threshold', default=0.2, type=float)
     parser.add_argument('--pic-dir')
     parser.add_argument('--boxes-amount', default=5, type=int)
+    parser.add_argument('--chairs', type=int, default=1)
+    parser.add_argument('--beds', type=int, default=1)
+    parser.add_argument('--tables', type=int, default=2)
+    parser.add_argument('--doors', type=int, default=1)
+    parser.add_argument('--pictureOrTV', type=int, default=0)
+    parser.add_argument('--wheelchairs', type=int, default=1)
     return parser.parse_args(args)
 
 
@@ -41,13 +47,16 @@ def plot_one_box(img, c1, c2, color=None, obj_type=None, label=None):
                 thickness=tl - 1, lineType=cv2.LINE_AA)
 
 
-def plot_boxes(img, boxes_to_draw, boxes, scores, classes, class_names, thresh):
+def plot_boxes(img, boxes_to_draw, boxes, scores, classes, class_names, thresh, objAmount):
     """plot all boxes on image."""
-
+    currentObjAmount = {"chair": 0, "bed": 0, "door": 0, "Wheelchair/rollator": 0, "table": 0, "pictureOrTV": 0}
     boxesList = boxes.tolist()
     print("\n"*3)
     print("New image, Resolution is {}/{}".format(img.shape[1], img.shape[0]))
     for i in range(boxes_to_draw):
+
+
+
 
         x1y1 = (int(boxesList[i][1]), int(boxesList[i][0]))
         x2y2 = (int(boxesList[i][3]), int(boxesList[i][2]))
@@ -55,18 +64,27 @@ def plot_boxes(img, boxes_to_draw, boxes, scores, classes, class_names, thresh):
         obj_type = class_names[int(classes[i])]
         # Gives coordinates, scores and class name
         if scores[i] < thresh:
-            print("Below threshold,", "the score is", int(scores[i]*100), "%,", obj_type)
+            print("Below threshold", "Score is", int(scores[i]*100), "%,", obj_type)
         else:
-            print("Box dimensions are", x1y1, "and", x2y2, "Score is", int(scores[i]*100), "%,", obj_type)
+            currentObjAmount[obj_type] += 1
+            if currentObjAmount[obj_type] <= objAmount[obj_type]:
+                print("Box dimensions are", x1y1, "and", x2y2, "Score is", int(scores[i]*100), "%,", obj_type)
 
-            plot_one_box(img, x1y1, x2y2, colors_main[int(classes[i])], obj_type=obj_type,
-                         label=str("%s:%0.2f" % (obj_type, scores[i])))
+                plot_one_box(img, x1y1, x2y2, colors_main[int(classes[i])], obj_type=obj_type,
+                             label=str("%s:%0.2f" % (obj_type, scores[i])))
+            else:
+                print("Object is {} {} % but maximum amount was reached".format(obj_type, int(scores[i]*100)))
 
     return img
 
 
 def main(args):
     counter = 0  # for image naming
+    print("Args", args)
+    # hacky solution to improve results
+    objAmount = {"chair": args.chairs, "bed": args.beds, "door": args.doors, "Wheelchair/rollator": args.wheelchairs,
+                 "table": args.tables, "pictureOrTV": args.pictureOrTV}
+
     # load model
     model = tf.saved_model.load(args.model_dir)
     # read class labels
@@ -81,14 +99,17 @@ def main(args):
         # predict model
         boxes, scores, classes, null = detect_batch_img(expanded, model)
         boxes = boxes.numpy()
+        np.concatenate(boxes)
         scores = scores.numpy()
         classes = classes.numpy()
 
         # Visualize results
 
-        plot_boxes(img_copy, args.boxes_amount, boxes[0], scores[0], classes[0], class_names, args.score_threshold)
+        plot_boxes(img_copy, args.boxes_amount, boxes[0], scores[0], classes[0],
+                   class_names, args.score_threshold, objAmount)
         cv2.imwrite("images/evald/" + str(counter) + ".jpg", img_copy)
-        counter += 1
+        counter = counter + 1
+        # cv2.waitKey(0)
 
 
 if __name__ == '__main__':
