@@ -6,7 +6,7 @@ Trained with NVIDIA 2080TI 11GB GPU\
 Training was done thanks to:\
 https://github.com/wangermeng2021/EfficientDet-tensorflow2
 
-The dataset images were labeled with https://github.com/tzutalin/labelImg\
+The dataset images were labeled with https://github.com/tzutalin/labelImg
 
 **Collect dataset and pre-trained model files from here:** \
 -The images the model was trained on\
