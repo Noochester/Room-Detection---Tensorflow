@@ -62,7 +62,7 @@ pip install -e .
 
 **What you will see next is dependencies shown in red, install all required packages with pip.**\
 ```pip install pycocotools``` will require MSVC 14.0+ installed\
-```pip install tensorflow-cpu``` Install this as well, it utilizes the CPU, which is enough for detections and doesn't require installation of additional libraries (CUDA and cuDNN)\
+```pip install tensorflow-cpu``` Install this as well, it utilizes the CPU, which is enough for detections and doesn't require installation of additional libraries (CUDA and cuDNN)
 
 **Verify installation with:**
 ```python``` *your path*``` \Tensorflow\models\research\object_detection\builders\model_builder_tf2_test.py```
@@ -70,14 +70,16 @@ pip install -e .
 If you get **OK (skipped=1)** the installation is finished.
 ![Example1](Example2.png?raw=true "Verification")
 
-**Run the detection:**
+
+**Running the detection**
 ```
 git clone https://github.com/Noochester/Room-Detection---Tensorflow.git
 cd Room-Detection---Tensorflow/Final model
 ```
 **Collect the model files from the link at the top, so you now have "\Final model\export"**
 
-The script can be adjusted to detect different amount of boxes, with different colours, fonts and thickness. By default it checks the **/images/eval** folder for images and the results are saved in the **images/evald**. 
+The script can be adjusted to detect different amount of boxes, with different colours, fonts and thickness, set amount of the different objects. By default it checks the **/images/eval** folder for images and the results are saved in the **images/evald**.\
+**pictureOrTV** is by default 0 so the value must be changed with the arguments to get detections of it. 
 
 An example command to run the script:
 ```
@@ -86,4 +88,4 @@ python detect.py --model-dir export/best_model_d2_112_0.655/2 --pic-dir images/e
 ```deactivate``` Disables the virtual enviroment, use the activate command to use it again.
 
 The output should be the x1y1 and x2y2 coordinates, the score and the object name. Example below:
-![Example2](example1.png?raw=true "Outputs")
+![Example2](Example1.png?raw=true "Outputs")
