@@ -103,7 +103,7 @@ def main(args):
         plot_boxes(img_copy, args.boxes_amount, boxes[0], scores[0], classes[0],
                    class_names, args.score_threshold, objAmount)
         # save directory/image name
-        cv2.imwrite("images/evald/" + img_name + "_OK" + ".jpg", img_copy)
+        cv2.imwrite("images/evald/" + "OK_" + img_name, img_copy)
 
 
 if __name__ == '__main__':
